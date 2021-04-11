@@ -10,7 +10,7 @@ namespace StudentDataModels.Exporters
 {
     public class MainStudentExporter : IExporter<StudentModel>
     {
-        public string Export(StudentModel fromData)
+        public static string Export(StudentModel fromData)
         {
             return "";
         }

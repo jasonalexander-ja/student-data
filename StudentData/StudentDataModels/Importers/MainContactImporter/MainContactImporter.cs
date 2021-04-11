@@ -8,7 +8,7 @@ using StudentDataModels.Models;
 
 namespace StudentDataModels.Importers
 {
-    class MainContactImporter : IImporter<ContactModel>
+    public class MainContactImporter : IImporter<ContactModel>
     {
         public static ContactModel Extract(string inputData)
         {

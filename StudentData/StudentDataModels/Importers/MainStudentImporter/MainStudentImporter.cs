@@ -8,7 +8,7 @@ using StudentDataModels.Models;
 
 namespace StudentDataModels.Importers
 {
-    class MainStudentImporter : IImporter<StudentModel>
+    public class MainStudentImporter : IImporter<StudentModel>
     {
         public static StudentModel Extract(string inputData)
         {
