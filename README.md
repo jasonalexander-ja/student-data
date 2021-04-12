@@ -1,91 +1,148 @@
-Hello, welcome to the software engineering CBUK programming challenge!
+# Students Data
 
-This task involves using test-driven development to write some code of
-your own.
+This this is set up as a visual studio solution containing 4 projcts 
 
-There's no time limit for completing this task. We would expect it to
-take a few hours, but we understand that everyone works at their own pace,
-so there's no strict deadline. We don't want to be unreasonable and want
-to be respectful of your time - so you are not expected to stay up all
-night coding away! As with a real project, you may want to take breaks and
-your git commits will reflect this. Don't worry, you won't be marked
-down for taking breaks.
+- StudentDataModels
+- StudentDataModelTests
+- StudentDataLoader
+- StudentDataView
 
-As you work on your solution, you should make commits to the repository
-along the way, just as you would on a real project. This is so we can
-see the progression and identify how you came to the solutions you did.
+Each are as follows:
 
-This folder already contains an empty git repository. Your submission will be assessed
-independently of the covering letter / CV you have already sent.
+## StudentDataModels 
 
-Have fun, and feel free to ask questions if anything is unclear.
+This is a .NET Core class library that defines the base domain models 
+to be used in the rest of the application, as well as defining 
+custom importers and exporters that will convert the base domain model 
+between custom JSON models; both the importers and exporters inherit 
+from the IImporter and IExporter interfaces, exporters will have a 
+static method that will accept the base class and return a JSON string,
+importers will accept a valid JSON string and return a base class. 
 
-## Description ##
+This has an external dependency; `Microsoft.EntityFrameworkCore.Design`
+this is used purely for using EF Core database automatic migrations, 
+if being used with an existing database with a correct schema, then 
+this dependency isn't needed, it can be installed via;
 
-In the `input_mis_data.json` file is some json output from a hypothetical school 
-managment information API. The scenario is that we have performed a request for
-students and the data need to be manipulated in a flexible way.
+(Top menu) Tools -> NuGet Packet Manager -> Manage NuGet Packages for Solution 
 
-Unfortunately the real mis APIs are nowhere near this simple, but this
-example provides more than enough complexity for the challenge!
+In `Browse` search for the dependancy and select it, and install it for
+StudentDataModels project.
 
+This project is top of the dependancy tree for the solution and so has 
+no other references to other projects.
 
-## Your task ##
+## StudentDataModelTests
 
-Your task is to write a program which will parse the `input_mis_data.json` file and output
-the data, modelled in the same format as `output_mis_data.json`. This process replicates an ETL process 
-that would typically need to be executed in production. There are 15+ different school systems that produce the data in `input_mis_data.json` 
-data in different schemas, so consider that when building the translation piece.
+This is used as the tests for the StudentDataModels importers and exporters,
+this contains tests for the students model importer/exporter and contacts model
+importer, these can be ran via accessing the Test Explorer or through the 
+test exporer through; Test -> Test Explorer, and clicking run all or
+invoking them individually; the test are set up to call the importers on
+json strings (stored in ./TestData), and checking the result against example
+objects (provided by methods of ExampleModelGenerator in ExampleModelGenerator.cs)
+or by converting the exporters on the example objects and checking againts 
+the JSON in ./TestData, when testing ensure that the full path to the test 
+project (with a / at the end) is in the return string of `GetPath()` method 
+on the class `DataPath`, e.g.:
 
-Once you have the output data model, we would like to see you use that data in a web application to solve the following use cases:
+`public static string GetPath() => "C:\Dev";`
 
-* As a school staff user, I need to search for a student record, so i can check their details that include contact and demographic information
-* As a school staff user, I need to be able to filter students by year group, so I can perform bulk actions
+This project must refernce the StudentDataModels project and have the latest 
+following NuGet packages installed:
 
+- coverlet.collector 
+- Microsoft.NET.Test.Sdk
+- MSTest.TestAdapter
+- MSTest.TestFramework
 
+## StudentDataLoader 
 
-As an extension that will require further work with the input data model:
-* As a school staff user, I need to be able to review linked contacts for a student, so I can contact parents in an emergency
-* As a school staff user, I need to be able to award "points" to students
+This project is a .NET Core command line application ETL wrapper for the 
+MainStudentsImporter and MainStudentsExporter in the StudentDataModels 
+project, this has no external NuGet dependencies that need to be installed,
+it just needs a refernce to StudentDataModels. This project will accept 2 
+command line arguments (expected them to be paths), check them, and read
+a JSON file to the MainStudentImporter importer and then pass the object 
+to the MainStudentExporter, and then write the subsequent JSON string
+to the file specified by the command line, performing all relevant checks 
+that the files exist and polling the user if they wish to overwrite the
+output file should it already exist.
 
-Provide a simple interface powered by the supplied data (you may want to duplicate the record for more than one student!) that provides the UI components 
-that facilitate the above use cases. Be creative! The key things here are displaying data from a source, filtering, accessing and expanding 
-record detail in some way, relating data to linked records and storing data against a record.
+When debugging make sure that under;
+Project Properties (right-click -> properties) -> Debug -> Application arguments  
+there are 2 paths, the first to a JSON file to be used and the second to be
+written to. This the order it will be submitted when running directly from the
+console.
 
+## StudentDataView
 
+This is a ASP.NET Core API with React project; this uses a react front end 
+with API routes to display user data using the domain specifed by 
+StudentDataModels in a SQL Server database, it further uses EntityFramework 
+Core to manage database access. 
 
-## What we're looking for ##
+### Client App
 
-Below is a scoring rubric that outlines the five areas for which
-you will be marked. If you run out of time that's fine, but we urge you to
-concentrate your time on these areas and don't get caught up handling
-edge-cases and performance optimisations.
+The react page is stored under "ClientApp" and uses Material-UI, this can 
+be added by going to the terminal and to the ClientApp directory and 
+using the npm command: 
+`npm install @material-ui/core`
+And also ensuring that the following is in the head tags of ClientApp/Public/Index.html
+`<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />`
 
-You can assume that program will only ever need to handle the json input
-provided and you don't need to implement error handling.
+For debugging purposes, under ClientApp/src/Helper.js there is a `const` named 
+`baseURL`, here you can specify an alternate URL address for the api access,
+useful if the front end work is being done separately from the backend. 
 
-However, whilst we don't expect you to implement this, you might want to
-consider how open the program is to handling additional input formats 
-and different output formats for attributes.
+##### App Usage
 
-You are expected to write tests to guide your development, and make
-regular commits to the repository so that we can see the progression of
-how it developed. We don't expect the tests to provide 100% code coverage.
+The app should load up a page titled "Students Data View", with an option
+to filter students by name or year group, below that a series of vertically
+stacked white pannels containing 4 fields each (Name, Gender, Year group, and ULN).
 
-You may use whichever language and tools you are comfortable with.
+Each pannel will have 2 buttons, "Show More" that will expand the student record
+to display the other fields, as well as a red button to add a point to a student,
+the total number of points a student has will be displayed next to that.
 
-Here are some things to think about:
+When the student is fully expanded, at the bottom will be a section named "Contacts"
+that will have a drop down select box and 3 fields, the name of the linked contact
+for that student can be selected and the details (Relationship, Next of Kin Y/N
+and Description) for that contact will show in those fields, pressing the show button
+again will hide the expanded record. 
 
-* Appropriate modelling of the domain using objects
-* Separation of concerns: parsing, domain modelling and output formatting
-* Avoid over-engineering
+To filter a student just start typing in the "Filter" text box at the top and 
+it will dynamically filter based on name or year, (depending on what's selected 
+in the select box to the left of it). 
 
-## Scoring Rubric ##
+### Back end
 
-|                       | D                                                 | C                                                                     | B                                                                                                                                            | A                                                                                                                             |
-|------------------------|---------------------------------------------------|-----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| Ease of use            | No useage instructions or instructions don't work | Usage instructions are partially complete.                            | Useage instructions are complete.                                                                                                            | Dependency management is automated – installing and running the program is very simple.                                      |
-| Tests                  | No tests or tests don't work                      | Tests run but some fail or some major parts of the logic are untested | Tests all pass but they're overly complicated and/or testing the wrong thing.                                                                | All key logic is adequately tested. No redundant tests. Not necessarily 100% coverage.                                       |
-| Accuracy of output     | There is no output                                | Output is incorrect or large parts are missing                        | Output is all correct but some parts are missing or minor mistakes                                                                           | Output is all present and correct                                                                                            |
-| Object oriented design | Extremely poor or no separation of concerns       | Concerns are separated at least to some extent                        | Good separation of concerns but there is some overlap. Some classes may have too much responsibility.                                        | Clean separation of concerns with no overlap. The code would be relatively easy to extend or modify if requirements changed. |
-| Coding style           | Code is difficult to read or follow               | Style is inconsistent or not idiomatic Ruby                           | Style is idiomatic but some refactoring would make it easier to follow. May have overly complicated methods, unclear or ambiguous naming conventions. | Code is easy to follow and not overly complicated. Naming conventions are very clear.                                     |
+The backend servs to provide API routes and static file hosting for the client app.
+It is set up to use EntityFramework Core for SQL Server, the server connection is 
+under appsettings.json -> ConnectionStrings -> StudentDataContext, this is where 
+you should specify your database connection string prior to startup. Prior to start
+up, make sure the database schema is up to date, this can be done easily by (after
+installing the dependencies - see below), by entering the package management console
+via Tools -> NuGet Package Manager -> Package Manager Console, and typig the following;
+`Add-Migration [relevant name here - i.e. InitialCreate]`
+and;
+`Update-Database`
+that will ensure that the schema is updated. 
+
+When the app starts (including debug mode), it will check the database for any students,
+if none it will read all the files under the directory; `{project dir}/TestData/Students`
+and pass that over to the MainStudentImporter and MainContactsImporter defined in 
+StudentDataModels, it will then cast the resultant objects to ContactDataModel and 
+StudentDataModel which are extensions of the base models defined in StudentDataModels 
+that add addtional information useful to EF Core and the end user, these will then be 
+added to the database, thus seeding it. 
+
+The StudentDataView project will require a refernce to StudentDataModels, 
+and requires the following NuGet packages:
+- Microsoft.AspNetCore.SpaServices.Extensions
+- Microsoft.EntityFrameworkCore
+- Microsoft.EntityFrameworkCore.Design
+- Microsoft.EntityFrameworkCore.SqlServer
+- Microsoft.EntityFrameworkCore.Tools
+- Microsoft.VisualStudio.Web.CodeGeneration.Design
+

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "StudentDataLoader": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Dev\\sites\\cbuk\\initial-setup\\StudentData\\StudentLoader\\TestData\\input_test_data.json C:\\Dev\\sites\\cbuk\\initial-setup\\StudentData\\StudentLoader\\TestData\\output_test_data.json"
+    }
+  }
+}

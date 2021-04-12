@@ -1,0 +1,15 @@
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\bin\Debug\net5.0\StudentDataModels.deps.json
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\bin\Debug\net5.0\StudentDataModels.dll
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\bin\Debug\net5.0\ref\StudentDataModels.dll
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\bin\Debug\net5.0\StudentDataModels.pdb
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\StudentDataModels.csprojAssemblyReference.cache
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\StudentDataModels.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\StudentDataModels.AssemblyInfoInputs.cache
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\StudentDataModels.AssemblyInfo.cs
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\StudentDataModels.csproj.CoreCompileInputs.cache
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\StudentDataModels.dll
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\ref\StudentDataModels.dll
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\StudentDataModels.pdb
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\bin\Debug\net5.0\StudentDataModels.runtimeconfig.json
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\bin\Debug\net5.0\StudentDataModels.runtimeconfig.dev.json
+C:\Dev\sites\cbuk\initial-setup\StudentData\StudentDataModels\obj\Debug\net5.0\StudentDataModels.genruntimeconfig.cache
