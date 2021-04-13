@@ -41,7 +41,7 @@ test exporer through; Test -> Test Explorer, and clicking run all or
 invoking them individually; the test are set up to call the importers on
 json strings (stored in ./TestData), and checking the result against example
 objects (provided by methods of ExampleModelGenerator in ExampleModelGenerator.cs)
-or by converting the exporters on the example objects and checking againts 
+or by calling the exporters on the example objects and checking againts 
 the JSON in ./TestData, when testing ensure that the full path to the test 
 project (with a / at the end) is in the return string of `GetPath()` method 
 on the class `DataPath`, e.g.:
@@ -79,7 +79,7 @@ console.
 
 This is a ASP.NET Core API with React project; this uses a react front end 
 with API routes to display user data using the domain specifed by 
-StudentDataModels in a SQL Server database, it further uses EntityFramework 
+StudentDataModels from a SQL Server database, it further uses EntityFramework 
 Core to manage database access. 
 
 ### Client App
@@ -117,7 +117,7 @@ in the select box to the left of it).
 
 ### Back end
 
-The backend servs to provide API routes and static file hosting for the client app.
+The backend serves to provide API routes and static file hosting for the client app.
 It is set up to use EntityFramework Core for SQL Server, the server connection is 
 under appsettings.json -> ConnectionStrings -> StudentDataContext, this is where 
 you should specify your database connection string prior to startup. Prior to start
