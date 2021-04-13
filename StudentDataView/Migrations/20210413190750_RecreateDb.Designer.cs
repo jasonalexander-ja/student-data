@@ -10,8 +10,8 @@ using StudentDataView.Data;
 namespace StudentDataView.Migrations
 {
     [DbContext(typeof(StudentDataContext))]
-    [Migration("20210411151709_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210413190750_RecreateDb")]
+    partial class RecreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,8 @@ namespace StudentDataView.Migrations
 
             modelBuilder.Entity("StudentDataView.Models.ContactDataModel", b =>
                 {
-                    b.Property<string>("StudentDataModelID")
+                    b.Property<string>("ContactDataModelID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("AddressDisclosure")
@@ -31,10 +32,6 @@ namespace StudentDataView.Migrations
 
                     b.Property<bool>("AddressTransferred")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ContactDataModelID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ContactId")
                         .HasColumnType("int");
@@ -84,6 +81,9 @@ namespace StudentDataView.Migrations
                     b.Property<bool>("SendSms")
                         .HasColumnType("bit");
 
+                    b.Property<string>("StudentDataModelID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("StudentSourceId")
                         .HasColumnType("nvarchar(max)");
 
@@ -93,7 +93,9 @@ namespace StudentDataView.Migrations
                     b.Property<string>("WrittenCommunication")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("StudentDataModelID");
+                    b.HasKey("ContactDataModelID");
+
+                    b.HasIndex("StudentDataModelID");
 
                     b.ToTable("ContactDataModel");
                 });
@@ -250,6 +252,20 @@ namespace StudentDataView.Migrations
                     b.HasKey("StudentDataModelID");
 
                     b.ToTable("StudentDataModel");
+                });
+
+            modelBuilder.Entity("StudentDataView.Models.ContactDataModel", b =>
+                {
+                    b.HasOne("StudentDataView.Models.StudentDataModel", "Student")
+                        .WithMany("Contacts")
+                        .HasForeignKey("StudentDataModelID");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("StudentDataView.Models.StudentDataModel", b =>
+                {
+                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }
