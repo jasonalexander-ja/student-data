@@ -49,6 +49,7 @@ export default class StudentRecord extends React.Component {
         const showMore = this.state.showMore;
         const errorText = this.state.errorText;
         const studentId = student.sourceId;
+
         return (
             <Record>
                 <div>
@@ -66,12 +67,12 @@ export default class StudentRecord extends React.Component {
                     />
                     <Column
                         Name="ULN"
-                        Value={showMore}
+                        Value={student.uln}
                     />
                 </div>
                 <div hidden={showMore}>
                     <ColumnGroup
-                        source={studentId}
+                        recordId={studentId}
                         title="Address"
                         names={["UPN", 
                             "Year Group Id", 
@@ -98,7 +99,7 @@ export default class StudentRecord extends React.Component {
                         ]}
                     />
                     <ColumnGroup
-                        source={studentId}
+                        recordId={studentId}
                         title="Address"
                         names={["Address Line 1", "Address Line 2", "Town/City", "County", "Country", "Postcode"]}
                         values={[
@@ -111,7 +112,7 @@ export default class StudentRecord extends React.Component {
                         ]}
                     />
                     <ColumnGroup
-                        source={studentId}
+                        recordId={studentId}
                         title="Languages"
                         names={["Home Langauge", "First Language", "Proficiency in English", "Is EAL?"]}
                         values={[
@@ -122,7 +123,7 @@ export default class StudentRecord extends React.Component {
                         ]}
                     />
                     <ColumnGroup
-                        source={studentId}
+                        recordId={studentId}
                         names={["Nationality", "Country of Birth", "NHS Number", "Is Pregnant?", "Has Emergency Consent?"]}
                         values={[
                             student.nationalities,

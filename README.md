@@ -42,11 +42,7 @@ invoking them individually; the test are set up to call the importers on
 json strings (stored in ./TestData), and checking the result against example
 objects (provided by methods of ExampleModelGenerator in ExampleModelGenerator.cs)
 or by calling the exporters on the example objects and checking againts 
-the JSON in ./TestData, when testing ensure that the full path to the test 
-project (with a / at the end) is in the return string of `GetPath()` method 
-on the class `DataPath`, e.g.:
-
-`public static string GetPath() => "C:\Dev";`
+the JSON in ./TestData.
 
 This project must refernce the StudentDataModels project and have the latest 
 following NuGet packages installed:

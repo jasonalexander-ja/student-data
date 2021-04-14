@@ -8,6 +8,8 @@ namespace StudentDataModelTests
 {
     class DataPath
     {
-        public static string GetPath() => "";
+        // Gets the path of the current project, comes back 3 directories 
+        // from the working directory 
+        public static string GetPath() => System.IO.Path.GetFullPath(@"..\..\..\");
     }
 }

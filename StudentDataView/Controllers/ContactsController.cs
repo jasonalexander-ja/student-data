@@ -21,15 +21,7 @@ namespace StudentDataView.Controllers
             _context = context;
         }
 
-        // GET: api/Contacts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ContactView>>> GetContacts()
-        {
-            var contacts = await _context.Contacts.ToListAsync();
-            return contacts.Select(contacts => new ContactView(contacts)).ToArray();
-        }
-
-        // GET: api/Contacts/5
+        // GET: api/Contacts/{students id}
         [HttpGet("{studentId}")]
         public async Task<ActionResult<IEnumerable<ContactView>>> GetContactDataModel(
             string studentId)
@@ -44,16 +36,11 @@ namespace StudentDataView.Controllers
                 .AsNoTracking()
                 .ToListAsync();
 
-            var studentsView = contacts.Select(contact => 
-                new ContactView(contact))
+            var studentsView = contacts
+                .Select(contact => new ContactView(contact))
                 .ToArray();
 
             return studentsView;
-        }
-
-        private bool ContactDataModelExists(string id)
-        {
-            return _context.Contacts.Any(e => e.StudentDataModelID == id);
         }
     }
 }

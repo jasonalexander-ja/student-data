@@ -19,7 +19,8 @@ export default class ContactDetails extends React.Component {
     }
 
     async GetContacts() {
-        let contacts = await fetch(`${baseURL}${contactsURI}/${this.props.studentId}`).then(res => res.json());
+        let contacts = await fetch(`${baseURL}${contactsURI}/${this.props.studentId}`)
+            .then(res => res.json());
         this.setState({ contacts: contacts });
     }
 

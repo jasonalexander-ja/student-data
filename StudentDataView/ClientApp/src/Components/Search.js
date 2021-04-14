@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 
 export default function Search(props) {
-
     return (
         <div>
             <Grid

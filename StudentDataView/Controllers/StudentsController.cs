@@ -29,18 +29,24 @@ namespace StudentDataView.Controllers
         {
             var studentQueryable = from student in _context.Students
                                    select student;
+
             if (!String.IsNullOrEmpty(name))
                 studentQueryable = FilterName(studentQueryable, name);
+
             if (!String.IsNullOrEmpty(year))
                 studentQueryable = FilterYear(studentQueryable, year);
 
-            var students = await studentQueryable.AsNoTracking()
+            var students = await studentQueryable
+                .AsNoTracking()
                 .ToListAsync();
-            var studentsView = students.Select(student => new StudentView(student))
+
+            var studentsView = students
+                .Select(student => new StudentView(student))
                 .ToList();
             return studentsView;
         }
 
+        // GET: api/Students/AddPoint/{id}
         [HttpGet("AddPoint/{id}", Name = "AddPoint")]
         public async Task<ActionResult<StudentView>> AddPoint(string id)
         {
@@ -55,11 +61,11 @@ namespace StudentDataView.Controllers
         private static IQueryable<StudentDataModel> FilterName(
             IQueryable<StudentDataModel> studentQueryable, string name)
         {
-            return studentQueryable.Where(
-                student => student.FirstName.Contains(name) ||
-                    student.LastName.Contains(name) ||
-                    student.LegalFirstName.Contains(name) ||
-                    student.LegalLastName.Contains(name)
+            return studentQueryable.Where(s =>
+                (s.FirstName + " " + s.LastName).Contains(name) || 
+                (s.LegalFirstName + " " + s.LegalLastName).Contains(name) || 
+                (s.LegalFirstName + " " + s.LastName).Contains(name) || 
+                (s.FirstName + " " + s.LegalLastName).Contains(name) 
             );
         }
 
@@ -68,11 +74,6 @@ namespace StudentDataView.Controllers
         {
             return studentQueryable.Where(
                 student => student.YearCode == year);
-        }
-
-        private bool StudentDataModelExists(string id)
-        {
-            return _context.Students.Any(e => e.StudentDataModelID == id);
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿import React from 'react';
 import reactDom from 'react-dom';
 
-import Search from '.\\Components\\Search.js';
-import StudentList from '.\\Components\\StudentsList.js';
+import Search from './Components/Search.js';
+import StudentList from './Components/StudentsList.js';
 import './index.css';
 
-import { baseURL, studentsBaseURI } from ".\\Helper.js";
+import { baseURL, studentsBaseURI } from "./Helper.js";
 
 class App extends React.Component {
     constructor(props) {
@@ -15,14 +15,22 @@ class App extends React.Component {
             studentsURI: studentsBaseURI,
             students: [],
             searchBy: "name",
-            serachString: ""
+            serachString: "",
+            error: false,
+            errorMsg: ""
         }
     }
 
     async GetStudents() {
         const state = this.state;
         let newStudents = await fetch(baseURL + state.studentsURI)
-            .then(res => res.json());
+            .then(res => res.json())
+            .catch(() => {
+                this.setState({
+                    error: true,
+                    errorMsg: "Couldn't load student data at this moment."
+                });
+            });
         this.setState({
             loaded: true,
             students: newStudents
@@ -31,26 +39,20 @@ class App extends React.Component {
 
     FilterStudents(filterBy, filterString) {
         const state = this.state;
-        if(!filterString && state.studentsURI !== studentsBaseURI) {
-            this.setState({ 
-                loaded: false,
-                studentsURI: studentsBaseURI,
-                serachString: filterString,
-                searchBy: filterBy,
-            });
-            return;
-        }
         if(!filterString) {
             this.setState({
+                // If query parameters already are blank, no need to reload 
+                loaded: state.studentsURI === studentsBaseURI,
                 studentsURI: studentsBaseURI,
-                serachString: filterString,
+                serachString: "",
                 searchBy: filterBy,
             });
             return;
         }
+        let filterStrEncoded = encodeURIComponent(filterString);
         this.setState({
             loaded: false,
-            studentsURI: `${studentsBaseURI}?${filterBy}=${filterString}`,
+            studentsURI: `${studentsBaseURI}?${filterBy}=${filterStrEncoded}`,
             searchBy: filterBy,
             serachString: filterString
         });
@@ -70,6 +72,8 @@ class App extends React.Component {
                 />
                 <StudentList 
                     students={state.students}
+                    error={state.error}
+                    errorMSg={state.errorMsg}
                 />
             </div>
         );

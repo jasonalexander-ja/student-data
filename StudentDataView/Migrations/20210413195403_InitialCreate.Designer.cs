@@ -10,8 +10,8 @@ using StudentDataView.Data;
 namespace StudentDataView.Migrations
 {
     [DbContext(typeof(StudentDataContext))]
-    [Migration("20210413190750_RecreateDb")]
-    partial class RecreateDb
+    [Migration("20210413195403_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
